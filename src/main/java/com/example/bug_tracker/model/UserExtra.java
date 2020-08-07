@@ -10,10 +10,13 @@ public class UserExtra {
 
     @Id
     private String username;
+    private String job;
     private String role;
 
-    public UserExtra(String username, String role) {
+    public UserExtra(String username, String role, String job) {
         this.username = username;
         this.role = role;
+        this.job = job;
+
     }
 }
