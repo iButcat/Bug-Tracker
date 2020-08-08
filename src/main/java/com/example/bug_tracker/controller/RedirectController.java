@@ -13,4 +13,9 @@ public class RedirectController {
     public String redirectToRoot() {
         return "redirect:/";
     }
+
+    @GetMapping("/public")
+    public String redirectPublic() {
+        return "redirect:/";
+    }
 }
