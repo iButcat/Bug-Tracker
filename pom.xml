@@ -72,13 +72,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.10.0</version>
-			</plugin>
 		</plugins>
 	</build>
+
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -106,7 +102,7 @@
 									<outputDirectory>${basedir}/target/classes/static</outputDirectory>
 									<resources>
 										<resource>
-											<directory>app/build</directory>
+											<directory>frontend/build</directory>
 										</resource>
 									</resources>
 								</configuration>
@@ -170,5 +166,6 @@
 			</properties>
 		</profile>
 	</profiles>
+
 
 </project>

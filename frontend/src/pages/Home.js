@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { WithCookies } from 'react-cookie';
+import { withCookies } from 'react-cookie';
+import { Button, Container } from 'reactstrap';
 
 
 class Home extends Component {
@@ -24,7 +24,7 @@ class Home extends Component {
     if (body === '') {
       this.setState(({isAuthenticated: false}))
     } else {
-      this.setState({isAuthenticated: true, user: JSON.parse(body)})
+      this.setState({isAuthenticated: true, user: JSON.stringify(body)})
     }
   }
 
@@ -52,7 +52,6 @@ class Home extends Component {
 
    const button = this.state.isAuthenticated ?
      <div>
-       <Button color="link"><Link to="/groups">Manage JUG Tour</Link></Button>
        <br/>
        <Button color="link" onClick={this.logout}>Logout</Button>
      </div> :
@@ -60,7 +59,6 @@ class Home extends Component {
 
    return (
      <div>
-       <AppNavbar/>
        <Container fluid>
          {message}
          {button}
@@ -70,4 +68,4 @@ class Home extends Component {
  }
 }
 
-export default withRouter(Home);
+export default withCookies(Home);

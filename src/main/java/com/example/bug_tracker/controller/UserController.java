@@ -1,6 +1,7 @@
 package com.example.bug_tracker.controller;
 
 
+import com.example.bug_tracker.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,6 +11,7 @@ import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,14 +19,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("api/")
 public class UserController {
-    private ClientRegistration registration;
+    private final ClientRegistration registration;
+
+    private UserRepository userRepository;
 
     public UserController(ClientRegistrationRepository registrations) {
         this.registration = registrations.findByRegistrationId("okta");
     }
 
-    @GetMapping("/api/user")
+    @GetMapping("user")
     public ResponseEntity<?> getUser(@AuthenticationPrincipal OAuth2User user) {
         if (user == null) {
             return new ResponseEntity<>("", HttpStatus.OK);
@@ -33,7 +38,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/api/logout")
+    @PostMapping("logout")
     public ResponseEntity<?> logout(HttpServletRequest request,
                                     @AuthenticationPrincipal(expression = "idToken") OidcIdToken idToken) {
         // send logout URL to client so they can initiate logout
