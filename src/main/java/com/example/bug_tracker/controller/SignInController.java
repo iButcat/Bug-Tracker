@@ -25,7 +25,7 @@ public class SignInController {
 
     @PostMapping
     User signin(@RequestParam String email, @RequestParam String password) {
-        User u = new User(null, email, passwordEncoder.encode(password), User.Role.USER, null);
+        User u = new User();
         return repository.save(u);
     }
 
