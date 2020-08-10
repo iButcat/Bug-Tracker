@@ -3,6 +3,8 @@ package com.example.bug_tracker.model;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -14,21 +16,31 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    public enum Role {USER, ADMIN, MANAGER}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String username;
 
     @JsonIgnore
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(name = "AppUsersRoles", joinColumns = @JoinColumn(name = "usersid"), inverseJoinColumns = @JoinColumn(name = "usersRoleid"))
+    private Set<UserRole> userRolesList = new HashSet<UserRole>();
 
-    private String providerId;
+    public User() {}
+
+    public User(
+            String username,
+            String password,
+            String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
 
     public Long getId() {
         return id;
@@ -38,12 +50,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -62,20 +74,11 @@ public class User {
         this.password = password;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public Set<UserRole> getUserRolesList() {
+        return userRolesList;
     }
 
-    public void setProviderId(String providerId) {
-
-        this.providerId = providerId;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
+    public void setUserRolesList(Set<UserRole> userRolesList) {
+        this.userRolesList = userRolesList;
     }
 }
