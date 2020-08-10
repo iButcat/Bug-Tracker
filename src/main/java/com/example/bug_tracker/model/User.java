@@ -1,6 +1,5 @@
 package com.example.bug_tracker.model;
 
-import com.sun.istack.NotNull;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,6 +11,9 @@ import javax.persistence.*;
 })
 public class User {
 
+    @Column(nullable = false)
+    private String email;
+
     public enum Role {USER, ADMIN, MANAGER}
 
     @Id
@@ -20,15 +22,8 @@ public class User {
 
     private String name;
 
-    @Column(nullable = false)
-    private String email;
-
     @JsonIgnore
     private String password;
-
-    @NotNull
-    @Enumerated
-    private AuthProvider provider;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -67,19 +62,12 @@ public class User {
         this.password = password;
     }
 
-    public AuthProvider getProvider() {
-        return provider;
-    }
-
-    public void setProvider(AuthProvider provider) {
-        this.provider = provider;
-    }
-
     public String getProviderId() {
         return providerId;
     }
 
     public void setProviderId(String providerId) {
+
         this.providerId = providerId;
     }
 
