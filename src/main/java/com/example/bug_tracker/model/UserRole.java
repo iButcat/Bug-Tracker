@@ -3,8 +3,10 @@ package com.example.bug_tracker.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "user_role")
 public class UserRole {
 
     @Id

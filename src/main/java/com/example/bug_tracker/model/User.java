@@ -26,8 +26,10 @@ public class User {
     @JsonIgnore
     private String password;
 
+    private String login;
+
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "AppUsersRoles", joinColumns = @JoinColumn(name = "usersid"), inverseJoinColumns = @JoinColumn(name = "usersRoleid"))
+    @JoinTable(name = "AppUsersRoles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "users_role_id"))
     private Set<UserRole> userRolesList = new HashSet<UserRole>();
 
     public User() {}
@@ -35,7 +37,8 @@ public class User {
     public User(
             String username,
             String password,
-            String email) {
+            String email,
+            String login) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -80,5 +83,13 @@ public class User {
 
     public void setUserRolesList(Set<UserRole> userRolesList) {
         this.userRolesList = userRolesList;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }
