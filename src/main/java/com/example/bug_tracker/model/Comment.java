@@ -23,10 +23,12 @@ public class Comment {
     Comment() {}
 
     Comment(
+            Long id,
             Ticket ticket,
             User user,
             String message
     ) {
+        this.id = id;
         this.ticket = ticket;
         this.user = user;
         this.message = message;
