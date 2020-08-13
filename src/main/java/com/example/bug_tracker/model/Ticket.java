@@ -1,7 +1,9 @@
 package com.example.bug_tracker.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -9,18 +11,34 @@ import java.util.Objects;
 @Table(name="tickets")
 public class Ticket {
 
-    private @Id @GeneratedValue Long id;
+    @Id
+    @Column(name = "ticket_id")
+    private  @GeneratedValue Long id;
+
     private String title;
+
     private String description;
+
     @Column(name = "assigned_dev")
     private String assignedDev;
+
     private String project;
+
     private String priority;
+
     private String status;
+
     private String type;
+
     @Column(name="created_at")
-    private Date createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
     private Boolean updated;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User creator;
 
     Ticket() {}
 
@@ -32,8 +50,9 @@ public class Ticket {
             String priority,
             String status,
             String type,
-            Date createdAt,
-            Boolean updated
+            LocalDateTime createdAt,
+            Boolean updated,
+            User creator
     ) {
         this.title = title;
         this.description = description;
@@ -44,6 +63,7 @@ public class Ticket {
         this.type = type;
         this.createdAt = createdAt;
         this.updated = updated;
+        this.creator = creator;
     }
 
     public Long getId() {
@@ -110,11 +130,11 @@ public class Ticket {
         this.type = type;
     }
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -124,6 +144,14 @@ public class Ticket {
 
     public void setUpdated(Boolean updated) {
         this.updated = updated;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     @Override
@@ -143,7 +171,8 @@ public class Ticket {
                 Objects.equals(this.status, ticket.status) &&
                 Objects.equals(this.type, ticket.type) &&
                 Objects.equals(this.createdAt, ticket.createdAt) &&
-                Objects.equals(this.updated, ticket.updated);
+                Objects.equals(this.updated, ticket.updated) &&
+                Objects.equals(this.creator, ticket.creator);
     }
 
     @Override
@@ -158,7 +187,8 @@ public class Ticket {
                 this.status,
                 this.type,
                 this.createdAt,
-                this.updated
+                this.updated,
+                this.creator
         );
     }
 
@@ -175,6 +205,7 @@ public class Ticket {
                 ", type=" + type + '\'' +
                 ", created at=" + createdAt + '\'' +
                 ", updated=" + updated + '\'' +
+                ", creator=" + creator + '\'' +
                 '}';
     }
 }

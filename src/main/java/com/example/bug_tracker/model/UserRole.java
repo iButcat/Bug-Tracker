@@ -1,15 +1,14 @@
 package com.example.bug_tracker.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user_role")
 public class UserRole {
 
     @Id
+    @Column(name="user_role_id")
     private Long id;
 
     private String type;

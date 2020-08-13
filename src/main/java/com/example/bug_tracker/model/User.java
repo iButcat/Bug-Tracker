@@ -13,13 +13,14 @@ import java.util.Set;
 })
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "user_id")
+    private Long id;
+
     @Column(nullable = false)
     private String email;
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private String username;
 
