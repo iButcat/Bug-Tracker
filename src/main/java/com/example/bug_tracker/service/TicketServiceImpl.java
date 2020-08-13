@@ -61,5 +61,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findUsersTickets(Long userId) {}
+    public List<Ticket> findUsersTickets(Long userId) {
+        List<Ticket> ticketList = new ArrayList<>();
+        for (Ticket ticket : getTickets()) {
+            if (ticket.getCreator().getId() == userId ) {
+                ticketList.add(ticket);
+            }
+        }
+        return ticketList;
+    }
 }
