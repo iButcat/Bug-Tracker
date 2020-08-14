@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = { "/login" })
-public class LoginController {
+@RequestMapping(value = { "/profile" })
+public class ProfileController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String login() {
-        return "login";
+    public String profile() {
+        return "profile";
     }
 }
