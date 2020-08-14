@@ -1,7 +1,5 @@
 --> Backend
-    --> auth system 
-    --> rest api 
-    --> model
+    --> Finish Tickets/Projects/Comments Crud Controller
     --> query
 
 --> Frontend 
