@@ -49,6 +49,9 @@ export default class Register extends Component {
 
   render() {
     return (
+      <form onSubmit={this.onSubmit}>
+        <h1>Add form registration </h1>
+      </form>
     )
   }
 }
