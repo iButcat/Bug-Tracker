@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import com.example.bug_tracker.model.Ticket;
 import com.example.bug_tracker.repository.TicketRepository;
+import com.example.bug_tracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,6 +20,9 @@ public class TicketController {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("tickets")
     public List <Ticket> getTicket() {
