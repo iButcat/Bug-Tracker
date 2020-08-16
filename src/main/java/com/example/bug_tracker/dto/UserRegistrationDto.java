@@ -1,6 +1,5 @@
 package com.example.bug_tracker.dto;
 
-
 import com.sun.istack.NotNull;
 
 import javax.validation.constraints.Email;
