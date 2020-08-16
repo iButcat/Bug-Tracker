@@ -39,7 +39,7 @@ export default class Register extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    axios.post('127.0.0.1:8080/registration', registerObject)
+    axios.post('/registration', registerObject)
    .then((res) => {
      console.log(res.data)
    }).catch((error) => {
@@ -50,7 +50,42 @@ export default class Register extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
-        <h1>Add form registration </h1>
+        <div className="form-group">
+          <label>Username: </label>
+          <input
+            type="text"
+            className="form-control"
+            onChange={this.onChangeUsername}
+            value={this.state.username}
+            placeholder="Username"
+            />
+        </div>
+
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            className="form-control"
+            onChange={this.onChangeEmail}
+            value={this.state.email}
+            placeholder="Email"
+            />
+        </div>
+
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            className="form-control"
+            onChange={this.onChangePassword}
+            value={this.state.password}
+            placeholder="Password"
+            />
+        </div>
+
+        <button type="submit">
+          Register
+        </button>
       </form>
     )
   }
