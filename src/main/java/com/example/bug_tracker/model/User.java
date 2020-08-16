@@ -1,6 +1,5 @@
 package com.example.bug_tracker.model;
 
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,10 +20,8 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-
     private String username;
 
-    @JsonIgnore
     private String password;
 
     private String login;
