@@ -11,11 +11,13 @@ export default class Register extends Component {
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangePasswordMatches = this.onChangePasswordMatches.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = {
       username: "",
       email: "",
       password: "",
+      passwordMatches: "",
       login: false
     }
   }
@@ -32,12 +34,17 @@ export default class Register extends Component {
     this.setState({password: e.target.value})
   }
 
+  onChangePasswordMatches(e) {
+    this.setState({passwordMatches: e.target.value})
+  }
+
   onSubmit(e) {
     e.preventDefault()
     const registerObject = {
       username: this.state.username,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      passwordMatches: this.state.passwordMatches
     };
     axios.post('/registration', registerObject)
    .then((res) => {
@@ -80,6 +87,17 @@ export default class Register extends Component {
             onChange={this.onChangePassword}
             value={this.state.password}
             placeholder="Password"
+            />
+        </div>
+
+        <div className="form-group">
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            className="form-control"
+            onChange={this.onChangePasswordMatches}
+            value={this.state.passwordMatches}
+            placeholder="Repeat Password"
             />
         </div>
 
