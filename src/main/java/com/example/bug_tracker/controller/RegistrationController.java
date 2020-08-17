@@ -51,7 +51,6 @@ public class RegistrationController {
 
     }
 
-
     @GetMapping("/login")
     @ResponseBody
     public String login(Model model, String error, String logout) {
@@ -62,7 +61,7 @@ public class RegistrationController {
         if (logout != null) {
             model.addAttribute("message", "Your have been logged out successfully");
         }
-        return "/login";
+        return "redirect:/login";
     }
 
 

@@ -13,5 +13,4 @@ public class RedirectController {
     public String redirectToRoot() {
         return "redirect:/";
     }
-
 }
