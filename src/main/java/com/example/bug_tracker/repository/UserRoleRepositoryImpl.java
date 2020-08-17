@@ -1,8 +1,6 @@
 package com.example.bug_tracker.repository;
 
-import com.example.bug_tracker.dto.UserRegistrationDto;
 import com.example.bug_tracker.model.User;
-import com.example.bug_tracker.repository.UserRoleRepositoryCustom;
 import com.example.bug_tracker.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

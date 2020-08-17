@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
             throw new LoginExistsException("There is an account with that login: " + user.getLogin());
         }
         if (checkEmailExists(user.getEmail())) {
-            throw new EmailExistsException("There is an account with that email adress: " + user.getEmail());
+            throw new EmailExistsException("There is an account with that email address: " + user.getEmail());
         }
 
         return userRepository.addUser(user);

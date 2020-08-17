@@ -10,16 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = { "/registration" })
+@CrossOrigin("*")
 public class RegistrationController {
     @Autowired
     UserServiceImpl userService;
@@ -37,7 +35,7 @@ public class RegistrationController {
 
         if (result.hasErrors()) {
             result.rejectValue("password", "error.user", "Passwords don't match");
-            return "registration";
+            return "/registration";
         } else {
             User registered = null;
             try {
@@ -52,7 +50,7 @@ public class RegistrationController {
 
             model.addAttribute("user", user);
 
-            return "login";
+            return "/login";
         }
     }
 

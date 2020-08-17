@@ -9,20 +9,24 @@ import java.io.Serializable;
 public class UserRegistrationDto implements Serializable {
 
     @NotNull
-    @Size()
+    @Size(max = 40)
     private String username;
 
     @NotNull
     @Email
-    @Size()
+    @Size(max = 255)
     private String email;
 
     @NotNull
     private String login;
 
     @NotNull
-    @Size()
+    @Size(min = 6, max = 20)
     private String password;
+
+    @NotNull
+    @Size(min = 6, max = 20)
+    private String passwordMatches;
 
 
     public UserRegistrationDto() {}
@@ -32,12 +36,14 @@ public class UserRegistrationDto implements Serializable {
             String username,
             String email,
             String login,
-            String password
+            String password,
+            String passwordMatches
     ) {
         this.username = username;
         this.email = email;
         this.login = login;
         this.password = password;
+        this.passwordMatches = passwordMatches;
     }
 
     public String getUsername() {
@@ -72,8 +78,17 @@ public class UserRegistrationDto implements Serializable {
         this.password = password;
     }
 
+    public String getPasswordMatches() {
+      return passwordMatches;
+    }
+
+    public void setPasswordMatches(String passwordMatches) {
+      this.passwordMatches = passwordMatches;
+    }
+
+    @Override
     public String toString() {
         return "UserRegistrationDto [username=" + username +  ", login=" + login + ", password="
-                + password +  ", email=" + email +  "]";
+                + password+ ", passwordMatches=" + passwordMatches + ", email=" + email +  "]";
     }
 }

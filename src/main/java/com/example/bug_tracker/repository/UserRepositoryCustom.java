@@ -2,9 +2,8 @@ package com.example.bug_tracker.repository;
 
 import com.example.bug_tracker.dto.UserRegistrationDto;
 import com.example.bug_tracker.model.User;
-import org.springframework.stereotype.Repository;
 
-@Repository
+
 public interface UserRepositoryCustom {
     public User getUserByLogin(String login);
 

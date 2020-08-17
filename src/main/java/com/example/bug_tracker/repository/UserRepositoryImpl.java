@@ -3,6 +3,7 @@ package com.example.bug_tracker.repository;
 import com.example.bug_tracker.dto.UserRegistrationDto;
 import com.example.bug_tracker.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +33,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
         try {
             result = (User) entityManager
-                    .createQuery("SELECT u FROM User u LEFT JOIN FETCH u.userRolesList WHERE u.login=:loginp")
-                    .setParameter("loginp", login).getSingleResult();
+                    .createQuery("SELECT u FROM User u LEFT JOIN FETCH u.userRolesList WHERE u.login=:login")
+                    .setParameter("login", login).getSingleResult();
         } catch (NoResultException nre) {
         }
 
@@ -46,7 +47,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
         try {
             result = (User) entityManager
-                    .createQuery("SELECT u FROM User u  LEFT JOIN FETCH u.userRolesList WHERE u.email=:emailp")
+                    .createQuery("SELECT u FROM User u  LEFT JOIN FETCH u.userRolesList WHERE u.email=:email")
                     .setParameter("email", email).getSingleResult();
         } catch (NoResultException nre) {
         }
@@ -57,15 +58,21 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @Override
     @Transactional
     public User addUser(UserRegistrationDto user) {
-        User userToPersist = new User(user.getUsername(),  user.getLogin(),
-                passwordEncoder.encode(user.getPassword()), user.getEmail());
+        User userToPersist = new User();
+        userToPersist.setUsername(user.getUsername());
+        userToPersist.setEmail(user.getEmail());
+        userToPersist.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.getUsername(),  user.getLogin(),
+        // passwordEncoder.encode(user.getPassword()), user.getEmail()
 
         long customerRoleId = 2;
 
         userToPersist.getUserRolesList().add(userRoleRepository.getUserRoleById(customerRoleId));
 
-        entityManager.persist(userToPersist);
-        return userToPersist;
+        //entityManager.persist(userToPersist);
+
+        return userRepository.save(user);
+        //return userToPersist;
     }
 
     @Override
@@ -94,7 +101,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         + "u.password=COALESCE(:password,u.password), "
                         + "u.email=COALESCE(:email,u.email), "
                         + "WHERE u.login=:login")
-                .setParameter("surname", userUpdate.getUsername())
+                .setParameter("username", userUpdate.getUsername())
                 .setParameter("password",userUpdate.getPassword()!=null ? passwordEncoder.encode(userUpdate.getPassword()) : userUpdate.getPassword())
                 .setParameter("email", userUpdate.getEmail())
                 .setParameter("login", userlogin)
