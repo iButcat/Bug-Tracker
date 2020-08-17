@@ -2,7 +2,6 @@ package com.example.bug_tracker.model;
 
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -10,7 +9,7 @@ import java.util.Set;
 @Table(name="users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,26 +21,31 @@ public class User {
 
     private String username;
 
+    @ManyToMany
+    private Set<UserRole> roles;
+
     private String password;
 
     private String login;
 
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "AppUsersRoles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "users_role_id"))
-    private Set<UserRole> userRolesList = new HashSet<UserRole>();
+    @Transient
+    private String passwordConfirm;
 
-    public User() {}
+    public UserEntity() {}
 
-    public User(
+    public UserEntity(
             String username,
             String password,
             String email,
+            String passwordConfirm,
             String login) {
+        this.email = email;
         this.username = username;
         this.password = password;
-        this.email = email;
-    }
+        this.passwordConfirm = passwordConfirm;
+        this.login = login;
 
+    }
 
     public Long getId() {
         return id;
@@ -75,12 +79,12 @@ public class User {
         this.password = password;
     }
 
-    public Set<UserRole> getUserRolesList() {
-        return userRolesList;
+    public String getPasswordConfirm() {
+        return passwordConfirm;
     }
 
-    public void setUserRolesList(Set<UserRole> userRolesList) {
-        this.userRolesList = userRolesList;
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public String getLogin() {
@@ -89,5 +93,24 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email=" + email + '\'' +
+                ", username=" + username + '\'' +
+                ", password=" + password + '\'' +
+                ", passwordConfirm=" + passwordConfirm + '\'' +
+                ", login=" + login + "}";
     }
 }

@@ -1,26 +1,27 @@
 package com.example.bug_tracker.service;
 
-import com.example.bug_tracker.dto.UserRegistrationDto;
+
 import com.example.bug_tracker.exception.EmailExistsException;
 import com.example.bug_tracker.exception.LoginExistsException;
-import com.example.bug_tracker.model.User;
-import org.springframework.stereotype.Service;
+import com.example.bug_tracker.model.UserEntity;
+import com.example.bug_tracker.model.UserEntity;
 
 import java.util.List;
 
-@Service
+
 public interface UserService {
 
-    public List<User> getAllUsers();
+     void addUser(UserEntity user) throws EmailExistsException, LoginExistsException;
 
-    public User getUserById(Long id);
+     List<UserEntity> getUsers();
 
-    public User getUserByLogin(String login);
+     UserEntity getUser(Long id);
 
-    public User addUser(UserRegistrationDto user) throws EmailExistsException, LoginExistsException;
+     void updateUser(UserEntity user);
 
-    public int updateUser(String userlogin, User userUpdate);
+     void deleteUser(Long id);
 
-    public void addRoleToUser(Long userId, Long roleId);
+     UserEntity findByUsername(String email);
+
 
 }

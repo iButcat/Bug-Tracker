@@ -1,84 +1,61 @@
 package com.example.bug_tracker.service;
 
-import com.example.bug_tracker.dto.UserRegistrationDto;
-import com.example.bug_tracker.exception.EmailExistsException;
-import com.example.bug_tracker.exception.LoginExistsException;
-import com.example.bug_tracker.model.User;
+
+import com.example.bug_tracker.model.UserEntity;
 import com.example.bug_tracker.repository.UserRepository;
+import com.example.bug_tracker.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    public void addUser(UserEntity user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(new HashSet<>(Arrays.asList(userRoleRepository.findByName("USER_ROLE"))));
+        userRepository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public List<UserEntity> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public UserEntity getUser(Long id) {
+        return userRepository.findById(id).get();
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+    public void updateUser(UserEntity user) {
+        userRepository.save(user);
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.getUserById(id);
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 
     @Override
-    public User getUserByLogin(String login) {
-        return userRepository.getUserByLogin(login);
+    public UserEntity findByUsername(String email) {
+        return userRepository.findByEmail(email);
     }
-
-    @Override
-    public User addUser(UserRegistrationDto user) throws EmailExistsException, LoginExistsException {
-        if (checkLoginExists(user.getLogin())) {
-            throw new LoginExistsException("There is an account with that login: " + user.getLogin());
-        }
-        if (checkEmailExists(user.getEmail())) {
-            throw new EmailExistsException("There is an account with that email address: " + user.getEmail());
-        }
-
-        return userRepository.addUser(user);
-    }
-
-
-    @Override
-    public int updateUser(String userlogin, User userUpdate) {
-        return userRepository.updateUser(userlogin, userUpdate);
-    }
-
-    @Override
-    public void addRoleToUser(Long userId, Long roleId) {
-        userRepository.addRoleToUser(userId, roleId);
-    }
-
-    public boolean checkLoginExists(String login) {
-        User user = null;
-        user = userRepository.getUserByLogin(login);
-
-        if (user != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean checkEmailExists(String email) {
-        User user = null;
-        user = userRepository.getUserByEmail(email);
-
-        if (user != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
 }

@@ -15,7 +15,7 @@ public class Comment {
     private Ticket ticket;
 
     @ManyToOne
-    private User user;
+    private UserEntity user;
 
     @NotBlank(message = "not blank")
     private String message;
@@ -25,7 +25,7 @@ public class Comment {
     Comment(
             Long id,
             Ticket ticket,
-            User user,
+            UserEntity user,
             String message
     ) {
         this.id = id;
@@ -50,11 +50,11 @@ public class Comment {
         this.ticket = ticket;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 

@@ -9,16 +9,20 @@ public class UserRole {
 
     @Id
     @Column(name="user_role_id")
-    private Long id;
+    private @GeneratedValue Long id;
 
-    private String type;
+    private String name;
 
     public UserRole() {
     }
 
-    public UserRole(Long id, String type) {
+    public UserRole(Long id, String name) {
         this.id = id;
-        this.type = type;
+        this.name = name;
+    }
+
+    public UserRole(String name) {
+
     }
 
     public Long getId() {
@@ -29,16 +33,16 @@ public class UserRole {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "UserRole [id=" + id + ", type=" + type + "]";
+        return "UserRole [id=" + id + ", name=" + name + "]";
     }
 }

@@ -38,7 +38,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User creator;
+    private UserEntity creator;
 
     Ticket() {}
 
@@ -52,7 +52,7 @@ public class Ticket {
             String type,
             LocalDateTime createdAt,
             Boolean updated,
-            User creator
+            UserEntity creator
     ) {
         this.title = title;
         this.description = description;
@@ -146,11 +146,11 @@ public class Ticket {
         this.updated = updated;
     }
 
-    public User getCreator() {
+    public UserEntity getCreator() {
         return creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(UserEntity creator) {
         this.creator = creator;
     }
 

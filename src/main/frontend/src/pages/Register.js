@@ -46,7 +46,7 @@ export default class Register extends Component {
       password: this.state.password,
       passwordMatches: this.state.passwordMatches
     };
-    axios.post('/registration', registerObject)
+    axios.post('/register', registerObject)
    .then((res) => {
      console.log(res.data)
    }).catch((error) => {

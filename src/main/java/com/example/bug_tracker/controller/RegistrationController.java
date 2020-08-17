@@ -1,57 +1,69 @@
 package com.example.bug_tracker.controller;
 
-
-import com.example.bug_tracker.dto.UserRegistrationDto;
-import com.example.bug_tracker.exception.EmailExistsException;
-import com.example.bug_tracker.exception.LoginExistsException;
-import com.example.bug_tracker.model.User;
+import com.example.bug_tracker.model.UserEntity;
+import com.example.bug_tracker.service.SecurityService;
 import com.example.bug_tracker.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
-@RestController
-@RequestMapping(value = { "/registration" })
-@CrossOrigin("*")
+
+@Controller
 public class RegistrationController {
     @Autowired
     UserServiceImpl userService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String registration(WebRequest request, Model model) {
-        UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
-        model.addAttribute("user", userRegistrationDto);
+    @Autowired
+    private SecurityService securityService;
+
+    @GetMapping("/register")
+    @ResponseBody
+    public String registration(Model model) {
+        model.addAttribute("user", new UserEntity());
+
         return "registration";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String registerUser(@Valid @ModelAttribute("user") UserRegistrationDto user, BindingResult result,
-                               WebRequest request, Errors errors, Model model) {
+    /*@PostMapping("/registration")
+    public String registration(@ModelAttribute("user") UserEntity user, BindingResult bindingResult) {
 
-        if (result.hasErrors()) {
-            result.rejectValue("password", "error.user", "Passwords don't match");
-            return "/registration";
-        } else {
-            User registered = null;
-            try {
-                registered = userService.addUser(user);
-            } catch (LoginExistsException el) {
-                result.rejectValue("login", "error.user", "There is an account with that login");
-                return "registration";
-            } catch (EmailExistsException ee) {
-                result.rejectValue("email", "error.user", "There is an account with that email adress");
-                return "registration";
-            }
-
-            model.addAttribute("user", user);
-
-            return "/login";
+        if (bindingResult.hasErrors()) {
+            return "registration";
         }
+        userService.addUser(user);
+        return "/login"; // "redirect:/login"
+    } */
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Map<String,Object>> registerUser(@Valid @RequestBody UserEntity user) {
+        Map<String, Object> message = new HashMap<>();
+        userService.addUser(user);
+        System.out.println(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
+
+
+    @GetMapping("/login")
+    @ResponseBody
+    public String login(Model model, String error, String logout) {
+        if (error != null) {
+            model.addAttribute("error", "Invalid username or password");
+        }
+
+        if (logout != null) {
+            model.addAttribute("message", "Your have been logged out successfully");
+        }
+        return "/login";
+    }
+
 
 }

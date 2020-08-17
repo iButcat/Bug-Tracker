@@ -1,26 +1,28 @@
 package com.example.bug_tracker.repository;
 
-import com.example.bug_tracker.dto.UserRegistrationDto;
-import com.example.bug_tracker.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.bug_tracker.model.UserEntity;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
-public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
+
     @Override
-    <S extends User> S save(S entity);
-    
-    @Query(value = "SELECT * FROM USERS u WHERE u.status =1", nativeQuery = true)
-    public List<User> getAllUsers();
+    <S extends UserEntity> S save(S entity);
 
-    //@Query("SELECT u FROM Users u LEFT JOIN FETCH u.userRolesList")
-    @Query(value = "SELECT * FROM USERS u WHERE u.id=id", nativeQuery = true)
-    public User getUserById(@Param("id") Long id);
+    @Override
+    Optional<UserEntity> findById(Long id);
 
-    public User getUserByLogin(@Param("login") String login);
+    @Override
+    List<UserEntity> findAll();
 
-    User save(UserRegistrationDto user);
+    @Override
+    void deleteById(Long id);
+
+    @Query(value = "SELECT * FROM USERS u WHERE u.email = email", nativeQuery = true)
+    UserEntity findByEmail(@Param("email") String email);
 }

@@ -20,7 +20,7 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     Project() {}
 
@@ -29,7 +29,7 @@ public class Project {
             String name,
             String description,
             Ticket ticket,
-            User user
+            UserEntity user
     ) {
         this.id = id;
         this.name = name;
@@ -70,11 +70,11 @@ public class Project {
         this.ticket = ticket;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
