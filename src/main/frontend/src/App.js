@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
 import PropTypes from 'prop-types';
 
 // css
@@ -22,18 +23,16 @@ import Home from './pages/Home';
 export default class App extends Component {
   render() {
     return (
+    <CookiesProvider>
     <Router>
       <div>
         <Link to="/">Home</Link>
-        <Link to="/register">Register</Link>
-        <Link to="/login">Login</Link>
       </div>
       <Switch>
         <Route exact={true} path="/" component = {Home} />
-        <Route exact={true} path="/register" component={Register} />
-        <Route exact={true} path="/login" component={Login} />
       </Switch>
     </Router>
+    </CookiesProvider>
     )
   }
 }

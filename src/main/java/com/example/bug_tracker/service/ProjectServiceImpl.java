@@ -45,6 +45,5 @@ abstract class ProjectServiceImpl implements ProjectService {
     @Override
     public void addTicket(Ticket ticket) {
         ticketRepository.save(ticket);
-        //updateProject(ticket.getProject());
     }
 }

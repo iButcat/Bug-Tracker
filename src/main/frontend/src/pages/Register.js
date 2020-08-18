@@ -47,7 +47,7 @@ export default class Register extends Component {
       password: this.state.password,
       passwordMatches: this.state.passwordMatches
     };
-    axios.post('/register', registerObject)
+    axios.post('/registration', registerObject)
    .then((res) => {
      console.log(res.data)
    }).catch((error) => {
@@ -103,7 +103,8 @@ export default class Register extends Component {
         </div>
 
         <button type="submit">
-        <Link to="/login">
+          <Link
+           to={"/login"}>
           Register
           </Link>
         </button>

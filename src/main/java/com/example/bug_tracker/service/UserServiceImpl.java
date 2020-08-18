@@ -22,12 +22,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRoleRepository userRoleRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public void addUser(UserEntity user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(new HashSet<>(Arrays.asList(userRoleRepository.findByName("USER_ROLE"))));
         userRepository.save(user);
     }
